@@ -1,4 +1,6 @@
 import os, datetime, serial, csv, time, random
+import serial.tools.list_ports
+from serial import Serial
 
 """
     Handles Retrieving serial data from arduino
@@ -8,6 +10,8 @@ import os, datetime, serial, csv, time, random
 # Handle automatic filename generation
 date_in_title = True
 tests = []
+max_test_length = 20     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
+# max_test_length = 25200     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
 
 save_dir = "data"
 file_list = os.listdir(save_dir)
@@ -40,10 +44,35 @@ print(file_name)
 header = [("Cell " + str(i + 4*(current_test-1))) for i in range(1,5)]  # Create Header of CSV
 header.insert(0, 'Time')
 
+"""     Serial Setup    """
+"""         This will dynamically find the arduino's serial port     """
+#  Everytime the serial port is open the arduino resets
+#TODO: Remove debugging prints
+
+ports = serial.tools.list_ports.comports()
+all_ports = []
+
+for port, desc, hwid in sorted(ports):
+        print("{}: {}".format(port, desc))
+        all_ports.append("{}: {}".format(port, desc))
+
+print(all_ports)
+serial_port = ""
+for p in all_ports:
+    curr = p.lower()
+    if 'serial' in curr:
+        serial_port = p.split(':')[0]
+
+print(serial_port)
+
+# Open Serial Port
+ser = Serial(serial_port, 9600, timeout=5)
+
+
 with open(file_name, 'w', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(header)
-    t = 30
-    for i in range(t):
-        writer.writerow([i] + list(int(60*random.random()) for j in range(4)))
-        time.sleep(0.01)
+
+    for i in range(max_test_length):
+        writer.writerow(str(ser.readline())[2:-5].split(' '))
+        f.flush()   # makes it continually write to disk. Force quitting the program wont lose data
