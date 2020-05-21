@@ -1,16 +1,17 @@
-import os, datetime, serial, csv, time, random
+import os, datetime, serial, csv, time, random, signal
 import serial.tools.list_ports
 from serial import Serial
 
 """
     Handles Retrieving serial data from arduino
     Log all data into an appropriately names CSV files
+    This can be run independently of the main graphing program
 """
 
 # Handle automatic filename generation
 date_in_title = True
 tests = []
-max_test_length = 20     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
+max_test_length = 30     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
 # max_test_length = 25200     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
 
 save_dir = "data"
@@ -18,7 +19,7 @@ file_list = os.listdir(save_dir)
 
 
 for i in range(len(file_list)):
-    file_list[i] = file_list[i][:-4]        # Remove file extension
+    file_list[i] = file_list[i][:-4]        # Remove .csv file extension
     file_list[i] = file_list[i].split('_')[-1]
 
 for file in file_list:
@@ -27,6 +28,7 @@ for file in file_list:
         tests.append(num)
     except:
         print("ERROR: Cannot convert file: \'" , file, "\' to integer")
+
 if len(tests) != 0:
     current_test = max(tests) + 1
 else:
@@ -58,10 +60,17 @@ for port, desc, hwid in sorted(ports):
 
 print(all_ports)
 serial_port = ""
+port_found = False
 for p in all_ports:
     curr = p.lower()
     if 'serial' in curr:
         serial_port = p.split(':')[0]
+        port_found = True
+
+if not port_found:
+    print("Arduino not found! Ending Program")
+    exit()
+
 
 print(serial_port)
 
@@ -73,6 +82,13 @@ with open(file_name, 'w', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(header)
 
+
     for i in range(max_test_length):
         writer.writerow(str(ser.readline())[2:-5].split(' '))
         f.flush()   # makes it continually write to disk. Force quitting the program wont lose data
+
+    # When done reading, close file
+    print("Data Acquisition has finished. Closing file and exiting")
+    f.close()
+    # Kill main when this finishes
+    os.kill(os.getpid(), signal.SIGTERM)
