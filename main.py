@@ -131,8 +131,7 @@ def animate(i, t1, t2, t3, t4,x_com):
 
 start = time.clock()
 # TODO: Evaluate whether arduino actually updaes @ 1000ms or if timing needs to be adjusted due to duplicate measurements
-ani = animation.FuncAnimation(
-    fig, animate, interval=1000, fargs=(temp_data_1, temp_data_2, temp_data_3, temp_data_4,x_com,), blit=True)
+ani = animation.FuncAnimation(fig, animate, interval=1000, fargs=(temp_data_1, temp_data_2, temp_data_3, temp_data_4,x_com,), blit=True)
 
 
 plt.show()

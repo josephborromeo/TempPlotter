@@ -11,8 +11,7 @@ from serial import Serial
 # Handle automatic filename generation
 date_in_title = True
 tests = []
-max_test_length = 30     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
-# max_test_length = 25200     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
+max_test_length = 25200     # Maximum length the test will run in seconds. Currently 7 Hours (25200s)
 
 save_dir = "data"
 file_list = os.listdir(save_dir)
@@ -69,6 +68,7 @@ for p in all_ports:
 
 if not port_found:
     print("Arduino not found! Ending Program")
+    os.kill(os.getpid(), signal.SIGTERM)
     exit()
 
 
