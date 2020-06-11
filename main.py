@@ -3,7 +3,7 @@ import math
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import time, winsound, _thread, csv, os
+import time, winsound, _thread, csv, os, glob
 
 
 # FIXME: This is pretty sloppy, should fix the communication architecture and avoid this all together
@@ -13,9 +13,14 @@ def get_data(x):
 _thread.start_new_thread(get_data, (1,))
 
 def get_last():
-    file = os.listdir('data')[-1]       # FIXME: Won't work past 9 tests, must base off test number
+    #FIXME: DO this properly
+    files = glob.glob("data/*.csv")
+    files.sort(key=lambda x: int(x.rsplit('_',1)[1][:-4]))
+    file = files[-1]
+
+
     print('OPENING', file)
-    f = open('data/' + str(file), 'r')
+    f = open(str(file), 'r')
     reader = csv.reader(f)
     row = []
     for row in reader:
