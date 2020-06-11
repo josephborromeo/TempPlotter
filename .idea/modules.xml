@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../Meter/Noise Power Spectrum/kevin-sandbox/MTF and NPS/.idea/MTF and NPS.iml" filepath="$PROJECT_DIR$/../../Meter/Noise Power Spectrum/kevin-sandbox/MTF and NPS/.idea/MTF and NPS.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../Meter/Noise Power Spectrum/Meter_NPS/.idea/Meter_NPS.iml" filepath="$PROJECT_DIR$/../../Meter/Noise Power Spectrum/Meter_NPS/.idea/Meter_NPS.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/TempPlotter.iml" filepath="$PROJECT_DIR$/.idea/TempPlotter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../Meter/Noise Power Spectrum/joseph-notebook/.idea/joseph-notebook.iml" filepath="$PROJECT_DIR$/../../Meter/Noise Power Spectrum/joseph-notebook/.idea/joseph-notebook.iml" />
     </modules>
   </component>
 </project>

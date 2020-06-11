@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.5" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="joseph-notebook" />
+    <orderEntry type="module" module-name="MTF and NPS" />
     <orderEntry type="module" module-name="Meter_NPS" />
   </component>
 </module>
